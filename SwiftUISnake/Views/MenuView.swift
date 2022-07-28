@@ -11,25 +11,32 @@ struct MenuView: View {
     
     
     var body: some View {
-        Color.black.overlay {
        
             NavigationView {
-                
-                NavigationLink {
+                ZStack {
+                    Color.black.ignoresSafeArea()
                     
-                    SnakeView()
-                    
-                } label: {
-                    
-                    Text("Start Game !!!")
-                        .bold()
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                    
+                    NavigationLink {
+                        
+                        SnakeView()
+                        
+                    } label: {
+                        
+                        Text("Start Game !!!")
+                            .bold()
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                        
+                    }
                 }
+                
+                
             }
             
-        }
+        
+      
+            
+        
     }
 }
 

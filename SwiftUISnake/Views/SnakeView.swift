@@ -78,7 +78,11 @@ struct SnakeView: View {
 
 struct SnakeView_Previews: PreviewProvider {
     static var previews: some View {
-        SnakeView()
-            .previewInterfaceOrientation(.portrait)
+        if #available(iOS 15.0, *) {
+            SnakeView()
+                .previewInterfaceOrientation(.portrait)
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

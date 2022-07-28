@@ -11,7 +11,7 @@ class SnakeLevelTwoViewModel: ObservableObject {
     
     @Published var snakePositionArray: [CGPoint] = [CGPoint(x: 20, y: 20)]
     @Published var ladyBugPosition: CGPoint = CGPoint(x: 120, y: 120)
-    @Published var direction: Direction = .down
+    @Published var snakeDirection: Direction = .down
     @Published var isAlive: Bool = true
     @Published var snakeSpeed: Double = 0.2
     
@@ -20,6 +20,8 @@ class SnakeLevelTwoViewModel: ObservableObject {
     let maxX: CGFloat
     let minY: CGFloat
     let maxY: CGFloat
+    
+    var ladyBugDirection: Direction?
     
     init() {
         self.snakeSize = 15
@@ -31,6 +33,7 @@ class SnakeLevelTwoViewModel: ObservableObject {
         let originMaxY = UIScreen.main.bounds.maxY - 50
         maxY = SnakeViewModel.getCorrectBound(maxBound: originMaxY, snakeSize: snakeSize)
         
+        print("max x \(maxX) max y \(maxY)")
     }
     
     // 原本的 max x max y 無法被 蛇的方塊大小整除
@@ -55,7 +58,7 @@ class SnakeLevelTwoViewModel: ObservableObject {
     func changeDirection(){
         var prevSnakePosition = snakePositionArray[0]
         
-        switch direction {
+        switch snakeDirection {
         case .up:
             snakePositionArray[0].y -= snakeSize
         case .down:
@@ -93,7 +96,7 @@ class SnakeLevelTwoViewModel: ObservableObject {
         let xDist = abs(gesture.startLocation.x - gesture.location.x)
         let yDist = abs(gesture.startLocation.y - gesture.location.y)
         
-        let prevDirection = direction
+        let prevDirection = snakeDirection
         var newDirection: Direction? = nil
         
         if gesture.startLocation.y > gesture.location.y && yDist > xDist {
@@ -117,7 +120,7 @@ class SnakeLevelTwoViewModel: ObservableObject {
             return
         }
         
-        direction = newDirection
+        snakeDirection = newDirection
         
     }
     
@@ -130,23 +133,9 @@ class SnakeLevelTwoViewModel: ObservableObject {
     func changeBugDirection() {
         let dist = getDistanceBetweenBugAndSnake()
         
-        var bugDirection = getDirectForBug()
-        
-        if ladyBugPosition.x == minX - snakeSize {
-            bugDirection = [.up, .down].randomElement()
-            
-        } else if snakePositionArray[0].x > maxX {
-            snakePositionArray[0].x = minX
-            
-        } else if snakePositionArray[0].y < minY {
-            snakePositionArray[0].y = maxY
-            
-        } else if snakePositionArray[0].y > maxY {
-            snakePositionArray[0].y = minY
-        }
-        
-        if dist < 50 {
-            
+        let bugDirection = getDirectForBug()
+
+        if dist < 25 {
             
             switch bugDirection {
             case .up:
@@ -159,6 +148,9 @@ class SnakeLevelTwoViewModel: ObservableObject {
                 ladyBugPosition.x -= snakeSize
             }
         }
+        
+        
+        print("bug \(bugDirection) \(ladyBugPosition) snake \(snakePositionArray[0])")
     }
     
     
@@ -177,19 +169,75 @@ class SnakeLevelTwoViewModel: ObservableObject {
     
     private func getDirectForBug() -> Direction {
         let snakePosition = snakePositionArray[0]
-        if ladyBugPosition.x < snakePosition.x {
-            return .left
-        } else if ladyBugPosition.x > snakePosition.x {
-            return .right
-        } else if ladyBugPosition.y > snakePosition.y {
-            return .down
-        } else if ladyBugPosition.y > snakePosition.y {
-            return.up
+        
+        let isLadyBugXSmaller = ladyBugPosition.x < snakePosition.x
+        let isLadyBugYSmaller = ladyBugPosition.y < snakePosition.y
+        
+        let isHittingMinX = ladyBugPosition.x <= minX + snakeSize
+        let isHittingMaxX = ladyBugPosition.x >= maxX - snakeSize
+        let isHittingMinY = ladyBugPosition.y <= minY + snakeSize
+        let isHittingMaxY = ladyBugPosition.y >= maxY - snakeSize
+          
+        if isHittingMinX && isHittingMinY {
+            if snakeDirection == .up {
+                return .right
+            } else if snakeDirection == .left {
+                return .down
+            }
+        } else if isHittingMaxX && isHittingMinY {
+            if snakeDirection == .up {
+                return .left
+            } else if snakeDirection == .right {
+                return .down
+            }
+        } else if isHittingMinX && isHittingMaxY {
+            if snakeDirection == .down {
+                return .right
+            } else if snakeDirection == .left {
+                return .up
+            }
+        } else if isHittingMaxX && isHittingMaxY {
+            if snakeDirection == .down {
+                return .left
+            } else if snakeDirection == .right {
+                return .up
+            }
         }
-        return Direction.allCases.randomElement()!
+        
+        
+        if isHittingMinX || isHittingMaxX {
+            if isLadyBugYSmaller {
+                return .up
+            }
+            return .down
+
+        } else if isHittingMinY || isHittingMaxY {
+            if isLadyBugXSmaller {
+                return .left
+            }
+            return .right
+        }
+        
+        
+        return Direction.allCases.filter { direction in
+            direction != snakeDirection
+        }.randomElement()!
+        
+//        let distX = abs(ladyBugPosition.x - snakePosition.x)
+//        let distY = abs(ladyBugPosition.y - snakePosition.y)
+//
+//        if distX < distY {
+//            if isLadyBugXSmaller {
+//                return .left
+//            }
+//            return .right
+//        }
+//
+//        if isLadyBugYSmaller{
+//            return .up
+//        }
+//        return.down
     }
-    
-    
     
     private func hasBugBeenKilled() {
         if snakePositionArray[0] == ladyBugPosition {

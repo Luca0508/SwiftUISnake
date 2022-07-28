@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7E92E345288F72D90070C926 /* SwiftUISnakeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E92E344288F72D90070C926 /* SwiftUISnakeApp.swift */; };
-		7E92E347288F72D90070C926 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E92E346288F72D90070C926 /* ContentView.swift */; };
 		7E92E349288F72DA0070C926 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E92E348288F72DA0070C926 /* Assets.xcassets */; };
 		7E92E34C288F72DA0070C926 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E92E34B288F72DA0070C926 /* Preview Assets.xcassets */; };
 		7E92E353288F87580070C926 /* SnakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E92E352288F87580070C926 /* SnakeView.swift */; };
@@ -22,7 +21,6 @@
 /* Begin PBXFileReference section */
 		7E92E341288F72D90070C926 /* SwiftUISnake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUISnake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E92E344288F72D90070C926 /* SwiftUISnakeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISnakeApp.swift; sourceTree = "<group>"; };
-		7E92E346288F72D90070C926 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7E92E348288F72DA0070C926 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7E92E34B288F72DA0070C926 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7E92E352288F87580070C926 /* SnakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeView.swift; sourceTree = "<group>"; };
@@ -64,7 +62,6 @@
 			isa = PBXGroup;
 			children = (
 				7E92E344288F72D90070C926 /* SwiftUISnakeApp.swift */,
-				7E92E346288F72D90070C926 /* ContentView.swift */,
 				7EFDABC32890CE7B007C9424 /* ViewModels */,
 				7EFDABC22890CE67007C9424 /* Views */,
 				7EFDABC62890CEFE007C9424 /* Enum */,
@@ -180,7 +177,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E92E357288FDBA70070C926 /* MenuView.swift in Sources */,
-				7E92E347288F72D90070C926 /* ContentView.swift in Sources */,
 				7E92E345288F72D90070C926 /* SwiftUISnakeApp.swift in Sources */,
 				7EFDABCC289135F2007C9424 /* SnakeLevelTwoView.swift in Sources */,
 				7E92E353288F87580070C926 /* SnakeView.swift in Sources */,
