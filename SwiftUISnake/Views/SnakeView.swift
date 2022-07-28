@@ -9,10 +9,10 @@ import SwiftUI
 
 struct SnakeView: View {
     
-    @StateObject private var viewModel = SnakeViewModel()
+    @EnvironmentObject var viewModel: GameBaseViewModel
     
     @State var timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
-//
+
 //    func getTimer() -> Timer.TimerPublisher {
 //        return Timer.publish(every: viewModel.snakeSpeed, on: .main, in: .common)
 //    }
@@ -65,6 +65,7 @@ struct SnakeView: View {
             .onReceive(timer) { _ in
                 if viewModel.isAlive {
                     viewModel.changeDirection()
+                    viewModel.changeBugDirection()
                     timer = Timer.publish(every: viewModel.snakeSpeed, on: .main, in: .common).autoconnect()
                     
                 }

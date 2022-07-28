@@ -9,9 +9,25 @@ import SwiftUI
 
 @main
 struct SwiftUISnakeApp: App {
+
+    @StateObject var viewModel: GameBaseViewModel = getRandomGameLevel()
+    
     var body: some Scene {
         WindowGroup {
-            SnakeLevelTwoView()
+            SnakeView().environmentObject(viewModel)
+        }
+    }
+    
+    static func getRandomGameLevel() -> GameBaseViewModel {
+        return switchViewModel(type: Gamelevel.allCases.randomElement()!)
+    }
+    
+    static func switchViewModel(type: Gamelevel) -> GameBaseViewModel {
+        switch type {
+        case .levelOne:
+             return SnakeViewModel()
+        case .levelTwo:
+            return SnakeLevelTwoViewModel()
         }
     }
 }
